@@ -38,6 +38,10 @@ struct GameCard: View {
                 Label(game.released?.formattedDate() ?? "-", systemImage: "calendar")
                     .font(.subheadline)
                     .foregroundColor(.white)
+                
+                Label(String(format: "%.1f", game.rating), systemImage: "star.fill")
+                    .font(.subheadline)
+                    .foregroundColor(.yellow)
             }
             .padding()
         }
