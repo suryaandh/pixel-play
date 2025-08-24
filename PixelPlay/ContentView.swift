@@ -1,24 +1,22 @@
-//
-//  ContentView.swift
-//  PixelPlay
-//
-//  Created by Zhuanz1密码0000 on 22/08/25.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    @State private var showSplash = true
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            Group {
+                if showSplash {
+                    SplashView(onFinish: { showSplash = false })
+                } else {
+                    GameListView()
+                }
+            }
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
 }
+

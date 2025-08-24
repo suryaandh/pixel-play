@@ -1,10 +1,3 @@
-//
-//  PixelPlayApp.swift
-//  PixelPlay
-//
-//  Created by Zhuanz1密码0000 on 22/08/25.
-//
-
 import SwiftUI
 
 @main
