@@ -1,0 +1,4 @@
+#include "Base.xcconfig"
+
+API_KEY = 685766cbf4a441ba9914bd7358a38a5b
+APP_ENV = RELEASE

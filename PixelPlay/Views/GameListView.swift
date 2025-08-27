@@ -6,11 +6,21 @@ struct GameListView: View {
     var body: some View {
         NavigationStack {
             HStack{
-                Text("🎮 Pixel Play")
+                Text(verbatim: "🎮 Pixel Play")
                     .font(.system(size: 20))
                     .bold()
                 
                 Spacer()
+                
+                NavigationLink {
+                    FavoriteListView()
+                } label: {
+                    Image(systemName: "heart")
+                        .font(.title2)
+                        .foregroundColor(.gray)
+                }
+                
+                Spacer().frame(width: 16)
                 
                 NavigationLink {
                     SearchView()
@@ -36,7 +46,7 @@ struct GameListView: View {
                 LazyVGrid(columns: [GridItem(.flexible(), spacing: 20)]) {
                     ForEach(viewModel.games, id: \.id) { game in
                         NavigationLink(destination: GameDetailView(gameId: game.id)) {
-                            GameCard(game: game)
+                            GenericGameCard(game: game)
                         }
                         .onAppear {
                             if game.id == viewModel.games.last?.id {
@@ -47,7 +57,7 @@ struct GameListView: View {
                 }
                 
                 if viewModel.isLoading {
-                    ProgressView("Loading more...")
+                    ProgressView( "loading_more")
                         .padding()
                         .frame(maxWidth: .infinity)
                 }

@@ -15,7 +15,7 @@ struct SearchView: View {
                     Image(systemName: "magnifyingglass")
                         .foregroundColor(.gray)
                     
-                    TextField("Search Game...", text: $query)
+                    TextField("search_games", text: $query)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
                         .onChange(of: query) { oldValue, newValue in
@@ -46,7 +46,7 @@ struct SearchView: View {
                 
                 if viewModel.isSearching {
                     Spacer()
-                    ProgressView("searching game...")
+                    ProgressView("searching_games")
                         .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                         .font(.headline)
                     Spacer()
@@ -59,7 +59,7 @@ struct SearchView: View {
                         Image(systemName: "exclamationmark.triangle.fill")
                             .font(.system(size: 48))
                             .foregroundColor(.orange)
-                        Text("Something went wrong")
+                        Text("something_wrong")
                             .font(.title3)
                             .bold()
                         Text(error)
@@ -78,7 +78,7 @@ struct SearchView: View {
                         Image(systemName: "magnifyingglass")
                             .font(.system(size: 48))
                             .foregroundColor(.gray)
-                        Text("No games found")
+                        Text("no_games_found")
                             .font(.title3)
                             .foregroundColor(.gray)
                     }
@@ -88,10 +88,10 @@ struct SearchView: View {
                 
                 else {
                     ScrollView {
-                        LazyVGrid(columns: [GridItem(.flexible(), spacing: 16)], spacing: 16) {
-                            ForEach(viewModel.searchResults, id: \.id) { game in
-                                NavigationLink(destination: GameDetailView(gameId: game.id)) {
-                                    GameSearchCard(game: game)
+                        LazyVGrid(columns: [GridItem(.flexible(), spacing: 16)]) {
+                            ForEach(viewModel.searchResults, id: \.id) { gameSearch in
+                                NavigationLink(destination: GameDetailView(gameId: gameSearch.id)) {
+                                    GenericGameCard(gameSearch: gameSearch)
                                 }
                             }
                         }
@@ -100,7 +100,7 @@ struct SearchView: View {
                     }
                 }
             }
-            .navigationTitle("Search Games")
+            .navigationTitle("search_games")
             .navigationBarTitleDisplayMode(.inline)
         }
     }

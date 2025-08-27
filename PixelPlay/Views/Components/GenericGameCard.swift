@@ -1,12 +1,16 @@
 import SwiftUI
 
-struct GameCard: View {
-    let game: Game
+struct GenericGameCard<T>: View {
+    let item: T
+    let getName: (T) -> String
+    let getBackgroundImage: (T) -> String?
+    let getReleased: (T) -> String?
+    let getRating: (T) -> Double?
     
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             
-            AsyncImage(url: URL(string: game.backgroundImage ?? "")) { image in
+            AsyncImage(url: URL(string: getBackgroundImage(item) ?? "")) { image in
                 image
                     .resizable()
                     .scaledToFill()
@@ -28,25 +32,51 @@ struct GameCard: View {
             .frame(height: 200)
             
             VStack(alignment: .leading, spacing: 6) {
-                Text(game.name)
+                Text(getName(item))
                     .font(.title2)
                     .bold()
                     .foregroundColor(.white)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
                 
-                Label(game.released?.formattedDate() ?? "-", systemImage: "calendar")
+                Label(getReleased(item)?.formattedDate() ?? "-", systemImage: "calendar")
                     .font(.subheadline)
                     .foregroundColor(.white)
                 
-                Label(String(format: "%.1f", game.rating), systemImage: "star.fill")
-                    .font(.subheadline)
-                    .foregroundColor(.yellow)
+                if let rating = getRating(item) {
+                    Label(String(format: "%.1f", rating), systemImage: "star.fill")
+                        .font(.subheadline)
+                        .foregroundColor(.yellow)
+                }
             }
             .padding()
         }
         .frame(height: 200)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .shadow(radius: 6)
+    }
+}
+
+extension GenericGameCard where T == Game {
+    init(game: Game) {
+        self.init(
+            item: game,
+            getName: { $0.name },
+            getBackgroundImage: { $0.backgroundImage },
+            getReleased: { $0.released },
+            getRating: { $0.rating }
+        )
+    }
+}
+
+extension GenericGameCard where T == GameSearch {
+    init(gameSearch: GameSearch) {
+        self.init(
+            item: gameSearch,
+            getName: { $0.name },
+            getBackgroundImage: { $0.backgroundImage },
+            getReleased: { $0.released },
+            getRating: { _ in nil }
+        )
     }
 }
